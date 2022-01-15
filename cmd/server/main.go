@@ -1,9 +1,13 @@
-package server
+package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"Goryeo/internal/receipt"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	router := gin.Default()
-	router.GET("/ping", func(c *gin.Context) {
-	})
+	v1 := router.Group("/v1")
+	receipt.RegisterHandlers(v1)
+	router.Run()
 }
