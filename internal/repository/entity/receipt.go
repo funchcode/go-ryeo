@@ -14,7 +14,6 @@ type Receipt interface {
 	GetCreatedAt() time.Time
 	GetUpdatedAt() time.Time
 }
-
 type receipt struct {
 	ID        string    // 식별 ID
 	Name      string    // 명칭
@@ -70,6 +69,21 @@ func NewReceipt(name string, date time.Time, kind string, category string, conte
 		Amount:    amount,
 		Assets:    assets,
 		CreatedAt: time.Now(),
+	}
+}
+
+func SetAll(id string, name string, date time.Time, kind string, category string, contents string, amount rune, assets string, createdAt time.Time, updatedAt time.Time) Receipt {
+	return receipt{
+		ID:        id,
+		Name:      name,
+		Date:      date,
+		Kind:      kind,
+		Category:  category,
+		Contents:  contents,
+		Amount:    amount,
+		Assets:    assets,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}
 }
 

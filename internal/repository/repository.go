@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func NewDB() {
+func NewDB() *sql.DB {
 	cfg := mysql.Config{
 		User:   "root",
 		Passwd: "",
@@ -27,7 +27,6 @@ func NewDB() {
 	}
 
 	rows, err := db.Query(scheme.SchemeReceipt)
-
 	if err != nil {
 		log.Panicf(" 스키마 생성 실패 ! ")
 	}
@@ -36,5 +35,5 @@ func NewDB() {
 	for rows.Next() {
 		log.Println(rows.Columns())
 	}
-
+	return db
 }

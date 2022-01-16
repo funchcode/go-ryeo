@@ -8,9 +8,12 @@ import (
 )
 
 func main() {
-	repository.NewDB()
+
+	db := repository.NewDB()
+
 	router := gin.Default()
 	v1 := router.Group("/v1")
-	receipt.RegisterHandlers(v1)
+
+	receipt.RegisterHandlers(v1, receipt.NewService(db))
 	router.Run()
 }
