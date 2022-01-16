@@ -13,7 +13,7 @@ type Service interface {
 	Create(req CreateReceiptRequest)
 	Get(id string) Response
 	Query()
-	Update()
+	Update(req CreateReceiptRequest)
 	Delete()
 }
 
@@ -79,8 +79,8 @@ func (s service) Query() {
 
 }
 
-func (s service) Update() {
-
+func (s service) Update(req CreateReceiptRequest) {
+	data.NewReceiptData(s.db).Update(entity.NewReceipt(req.Name, time.Now(), req.Kind, req.Category, req.Contents, 0, req.Assets))
 }
 
 func (s service) Delete() {

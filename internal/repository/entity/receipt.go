@@ -11,6 +11,7 @@ type Receipt interface {
 	GetContents() string
 	GetAmount() rune
 	GetAssets() string
+	Used() bool
 	GetCreatedAt() time.Time
 	GetUpdatedAt() time.Time
 }
@@ -23,6 +24,7 @@ type receipt struct {
 	Contents  string    // 내용
 	Amount    rune      // 금액
 	Assets    string    // 자산형식 todo 별도 엔터티 분리
+	Disuse    bool      // 사용유무
 	CreatedAt time.Time // 발행날짜
 	UpdatedAt time.Time // 수정날짜
 }
@@ -57,6 +59,9 @@ func (r receipt) GetCreatedAt() time.Time {
 func (r receipt) GetUpdatedAt() time.Time {
 	return r.UpdatedAt
 }
+func (r receipt) Used() bool {
+	return r.Disuse
+}
 
 func NewReceipt(name string, date time.Time, kind string, category string, contents string, amount rune, assets string) Receipt {
 	return receipt{
@@ -68,11 +73,12 @@ func NewReceipt(name string, date time.Time, kind string, category string, conte
 		Contents:  contents,
 		Amount:    amount,
 		Assets:    assets,
+		Disuse:    true,
 		CreatedAt: time.Now(),
 	}
 }
 
-func SetAll(id string, name string, date time.Time, kind string, category string, contents string, amount rune, assets string, createdAt time.Time, updatedAt time.Time) Receipt {
+func SetAll(id string, name string, date time.Time, kind string, category string, contents string, amount rune, assets string, disuse bool, createdAt time.Time, updatedAt time.Time) Receipt {
 	return receipt{
 		ID:        id,
 		Name:      name,
@@ -82,6 +88,7 @@ func SetAll(id string, name string, date time.Time, kind string, category string
 		Contents:  contents,
 		Amount:    amount,
 		Assets:    assets,
+		Disuse:    disuse,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 	}

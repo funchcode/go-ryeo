@@ -10,6 +10,7 @@ const SchemeReceipt = `
 		contents VARCHAR(255),
 		amount INT NOT NULL,
 		assets VARCHAR(255) NOT NULL,
+		disuse tinyint(1)
 		created_at DATE NOT NULL,
 		updated_at DATE,
 		PRIMARY KEY(id)

@@ -30,4 +30,21 @@ func RegisterHandlers(rg *gin.RouterGroup, service Service) {
 		id := c.Param("id")
 		c.JSON(http.StatusOK, service.Get(id))
 	})
+
+	receipts.PUT("", func(c *gin.Context) {
+		var requestReceipt CreateReceiptRequest
+		if err := c.ShouldBindJSON(&requestReceipt); err != nil {
+			log.Panicln(" Bind json error. ")
+		}
+		log.Println(requestReceipt)
+		service.Update(CreateReceiptRequest{
+			Name:     requestReceipt.Name,
+			Kind:     requestReceipt.Kind,
+			Category: requestReceipt.Category,
+			Contents: requestReceipt.Contents,
+			Amount:   requestReceipt.Amount,
+			Assets:   requestReceipt.Assets,
+		})
+		c.JSON(http.StatusCreated, nil)
+	})
 }

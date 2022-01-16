@@ -3,18 +3,20 @@ package repository
 import (
 	"Goryeo/internal/repository/scheme"
 	"database/sql"
+	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"log"
 )
 
+var cfg = mysql.Config{
+	User:   "root",
+	Passwd: "",
+	Net:    "tcp",
+	Addr:   "127.0.0.1:3306",
+	DBName: "smoke",
+}
+
 func NewDB() *sql.DB {
-	cfg := mysql.Config{
-		User:   "root",
-		Passwd: "",
-		Net:    "tcp",
-		Addr:   "127.0.0.1:3306",
-		DBName: "smoke",
-	}
 	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		log.Fatal(err)
@@ -30,7 +32,14 @@ func NewDB() *sql.DB {
 	if err != nil {
 		log.Panicf(" 스키마 생성 실패 ! ")
 	}
-	defer rows.Close()
+
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println(" defer 에러 ")
+			fmt.Println(err.Error())
+		}
+	}(rows)
 
 	for rows.Next() {
 		log.Println(rows.Columns())
