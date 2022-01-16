@@ -2,7 +2,9 @@ package receipt
 
 import (
 	"Goryeo/internal/repository/entity"
+	"Goryeo/internal/repository/mysql/data"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -21,10 +23,6 @@ func NewService() Service {
 	return service{}
 }
 
-type Receipt struct {
-	entity.Receipt
-}
-
 type CreateReceiptRequest struct {
 	Name     string
 	Date     time.Time
@@ -36,28 +34,18 @@ type CreateReceiptRequest struct {
 }
 
 func (s service) Create(req CreateReceiptRequest) {
-	fmt.Println(" [Receipt] start Create() ! ")
+	log.Println(" [Receipt] start Create() ! ")
 	/*
 		todo Request validation 체크
 		if err = req.validate ; err != nil {
 			return err
 		}
 	*/
-	ID := entity.GenerateID()
-	receipt := entity.Receipt{
-		ID:        ID,
-		Name:      req.Name,
-		Kind:      req.Kind,
-		Date:      req.Date,
-		Category:  req.Category,
-		Contents:  req.Contents,
-		Amount:    req.Amount,
-		Assets:    req.Assets,
-		CreatedAt: time.Now(),
-	}
-	fmt.Println(receipt)
+	receipt := entity.NewReceipt(req.Name, req.Date, req.Kind, req.Category, req.Contents, req.Amount, req.Assets)
+	data.NewReceiptData()
+	log.Println(receipt)
 
-	fmt.Println(" [Receipt] end Create() ! ")
+	log.Println(" [Receipt] end Create() ! ")
 }
 
 func (s service) Get(id string) {

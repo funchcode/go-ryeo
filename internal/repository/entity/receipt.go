@@ -2,7 +2,20 @@ package entity
 
 import "time"
 
-type Receipt struct {
+type Receipt interface {
+	GetID() string
+	GetName() string
+	GetDate() time.Time
+	GetKind() string
+	GetCategory() string
+	GetContents() string
+	GetAmount() rune
+	GetAssets() string
+	GetCreatedAt() time.Time
+	GetUpdatedAt() time.Time
+}
+
+type receipt struct {
 	ID        string    // 식별 ID
 	Name      string    // 명칭
 	Date      time.Time // 날짜
@@ -13,6 +26,51 @@ type Receipt struct {
 	Assets    string    // 자산형식 todo 별도 엔터티 분리
 	CreatedAt time.Time // 발행날짜
 	UpdatedAt time.Time // 수정날짜
+}
+
+func (r receipt) GetID() string {
+	return r.ID
+}
+func (r receipt) GetName() string {
+	return r.Name
+}
+func (r receipt) GetDate() time.Time {
+	return r.Date
+}
+func (r receipt) GetKind() string {
+	return r.Kind
+}
+func (r receipt) GetCategory() string {
+	return r.Category
+}
+func (r receipt) GetContents() string {
+	return r.Contents
+}
+func (r receipt) GetAmount() rune {
+	return r.Amount
+}
+func (r receipt) GetAssets() string {
+	return r.Assets
+}
+func (r receipt) GetCreatedAt() time.Time {
+	return r.CreatedAt
+}
+func (r receipt) GetUpdatedAt() time.Time {
+	return r.UpdatedAt
+}
+
+func NewReceipt(name string, date time.Time, kind string, category string, contents string, amount rune, assets string) Receipt {
+	return receipt{
+		ID:        GenerateID(),
+		Name:      name,
+		Date:      date,
+		Kind:      kind,
+		Category:  category,
+		Contents:  contents,
+		Amount:    amount,
+		Assets:    assets,
+		CreatedAt: time.Now(),
+	}
 }
 
 /*
